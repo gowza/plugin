@@ -6,6 +6,7 @@
 "use strict";
 
 var fs = require('fs'),
+  is = require('is'),
   path = require('path');
 
 // Since this module is loaded as a symlink, it can be 
@@ -83,6 +84,10 @@ PlugIn.prototype.exec = function exec(callback) {
     process.stdin.removeListener('data', onData);
 
     if (commands.indexOf(command) === -1) {
+      if (/^[0-9]+$/.test(command)) {
+        return onData(commands[parseInt(command, 10) - 1]);
+      }
+
       console.log(command.red + ' is not a recognized command.');
       return bind();
     }
@@ -97,6 +102,7 @@ PlugIn.prototype.exec = function exec(callback) {
 
   bind = function () {
     console.log("Available commands are:\n" + commands.list);
+
     process.stdout.write('> ');
     process.stdin.on('data', onData);
   };
@@ -107,8 +113,8 @@ PlugIn.prototype.exec = function exec(callback) {
 
     commands.push('exit');
 
-    commands.list = commands.map(function addDash(file) {
-      return ' - ' + file;
+    commands.list = commands.map(function addDash(file, i) {
+      return (' ' + (i + 1) + '  ').slice(0, 4).blue + file;
     }).join('\n');
 
     bind();
