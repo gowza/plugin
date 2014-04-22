@@ -5,13 +5,13 @@
 
 "use strict";
 
-var fs = require('fs'),
-  is = require('is'),
-  path = require('path');
-
 // Since this module is loaded as a symlink, it can be 
 // best to use the parent's require path
 module.paths = module.parent.paths;
+
+var fs = require('fs'),
+  is = require('is'),
+  path = require('path');
 
 require('colors');
 
