@@ -9,9 +9,10 @@
 // best to use the parent's require path
 module.paths = module.parent.paths;
 
-var fs = require('fs'),
+var async = require('async'),
+  path = require('path'),
   is = require('is'),
-  path = require('path');
+  fs = require('fs');
 
 require('colors');
 
@@ -35,15 +36,17 @@ PlugIn.prototype.getCommands = function getCommands(callback) {
     return true;
   }
 
-  function stripJs(file) {
-    return file.replace(/\.js$/, '');
-  }
-
   fs.readdir(this.dir, function (err, files) {
-    var commands = files.filter(noIndexJs)
-      .map(stripJs);
 
-    callback.call(self, commands);
+    async.filter(files.filter(noIndexJs), function (name, callback) {
+      if (/\.js$/.test(name)) {
+        return callback(true);
+      }
+
+      fs.stat(self.dir + '/' + name, function (err, stats) {
+        callback(stats.isDirectory());
+      });
+    }, callback.bind(self));
   });
 };
 
