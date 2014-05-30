@@ -5,13 +5,8 @@
 
 "use strict";
 
-// Since this module is loaded as a symlink, it can be 
-// best to use the parent's require path
-module.paths = module.parent.paths;
-
 var async = require('async'),
   path = require('path'),
-  is = require('is'),
   fs = require('fs');
 
 require('colors');
