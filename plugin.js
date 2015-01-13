@@ -46,7 +46,15 @@ PlugIn.prototype.getCommands = function getCommands(callback) {
 };
 
 PlugIn.prototype.execCommand = function execCommand(command, callback) {
-  var commandTest;
+  var commandTest,
+    otherParts = command.indexOf('/');
+
+  if (otherParts === -1) {
+    otherParts = false;
+  } else {
+    otherParts = command.slice(otherParts + 1);
+    command = command.slice(0, -otherParts.length - 1);
+  }
 
   command = this.dir + '/' + command;
 
@@ -62,6 +70,10 @@ PlugIn.prototype.execCommand = function execCommand(command, callback) {
   command = require(command);
 
   if (command instanceof PlugIn) {
+    if (otherParts) {
+      return command.execCommand(otherParts, callback);
+    }
+
     return command.exec(callback);
   }
 
