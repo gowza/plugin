@@ -41,7 +41,11 @@ PlugIn.prototype.getCommands = function getCommands(callback) {
       fs.stat(self.dir + '/' + name, function (err, stats) {
         callback(stats.isDirectory());
       });
-    }, callback.bind(self));
+    }, function (commands) {
+      callback(commands.map(function (command) {
+        return command.replace(/\.js$/, '');
+      }));
+    });
   });
 };
 
