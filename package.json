@@ -1,0 +1,17 @@
+{
+  "name": "plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "plugin.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roderickObrist/plugin.git"
+  },
+  "author": "Roderick Obrist",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/roderickObrist/plugin/issues"
+  },
+  "homepage": "https://github.com/roderickObrist/plugin#readme"
+}
